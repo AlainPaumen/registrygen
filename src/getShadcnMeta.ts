@@ -8,7 +8,8 @@ export function getShadcnMeta(filePath: string, fileContent: string) {
         name: "",
         title: "",
         description: "",
-        category: []
+        category: [],
+        resources: []
     };
 
     ts.forEachLeadingCommentRange(fileContent, 0, (pos, end, kind) => {
@@ -18,8 +19,8 @@ export function getShadcnMeta(filePath: string, fileContent: string) {
             if (currLine.startsWith("//@root")) {
                 shadcnMeta.isRoot = true;
             };
-            if (currLine.startsWith("//@type")) {
-                shadcnMeta.type = currLine.replace("//@type:", "").trim() as ShadcnMeta["type"];
+            if (currLine.startsWith("//@registry")) {
+                shadcnMeta.type = currLine.replace("//@", "").trim() as ShadcnMeta["type"];
             }
             if (currLine.startsWith("//@name")) {
                 shadcnMeta.name = currLine.replace("//@name:", "").trim();
@@ -35,6 +36,9 @@ export function getShadcnMeta(filePath: string, fileContent: string) {
             }
             if (currLine.startsWith("//-")) {
                 shadcnMeta.description += "\n" + currLine.replace("//-", "").trim();
+            }
+            if (currLine.startsWith("//@resource:")) {
+                shadcnMeta.resources.push(currLine.replace("//@resource:", "").trim());
             }
         }
     });

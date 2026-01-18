@@ -1,4 +1,6 @@
 {
+    "RegistryPrefix": "@hoogin-",
+    "HomePage": "https://hoogin.be",
     "allowedExtensions": [
         ".js",
         ".jsx",
@@ -14,7 +16,7 @@
         "examples"
     ],
     "knownRegistries": {
-        "./src/components/ui": "@shadcn/ui",
+        "./src/components/ui": "@shadcn",
         "./src/@registry/auth": "@hoogin-auth",
         "./src/@registry/components": "@hoogin-components",
         "./src/@registry/form": "@hoogin-form",

@@ -1,5 +1,6 @@
 import { readdir } from "node:fs/promises";
 import path from "node:path";
+import { findRootDirectory } from "./findRootDirectory.js";
 import type { GeneratorConfig } from "./loadGeneratorConfig.types.js";
 import type { FileEntry } from "./scanDirectory.types.js";
 
@@ -27,6 +28,7 @@ export async function scanDirectory(
             files.push({
                 name: entry.name,
                 path: entryPath,
+                rootPath: findRootDirectory(entryPath),
             });
         }
     }

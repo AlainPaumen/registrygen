@@ -2,6 +2,7 @@
 export type FileEntry = {
     name: string;
     path: string;
+    rootPath: string;
     shadcn?: ShadcnMeta;
     imports?: string[];
 };
@@ -26,4 +27,5 @@ export type ShadcnMeta = {
     description: string;
     type: (typeof SHADCN_TYPES)[number];
     category: string[];
+    resources: string[];
 };
