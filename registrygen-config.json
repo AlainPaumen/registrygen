@@ -16,11 +16,29 @@
         "examples"
     ],
     "knownRegistries": {
-        "./src/components/ui": "@shadcn",
-        "./src/@registry/auth": "@hoogin-auth",
-        "./src/@registry/components": "@hoogin-components",
-        "./src/@registry/form": "@hoogin-form",
-        "./src/@registry/intlayer": "@hoogin-intlayer",
-        "./src/@registry/layout": "@hoogin-layout"
+        "./src/components/ui": {
+            "prefix": "@shadcn",
+            "url": "http://localhost:4173/r/@shadcn"
+        },
+        "./src/@registry/auth": {
+            "prefix": "@hoogin-auth",
+            "url": "http://localhost:4173/r/@hoogin-auth"
+        },
+        "./src/@registry/components": {
+            "prefix": "@hoogin-components",
+            "url": "http://localhost:4173/r/@hoogin-components"
+        },
+        "./src/@registry/form": {
+            "prefix": "@hoogin-form",
+            "url": "http://localhost:4173/r/@hoogin-form"
+        },
+        "./src/@registry/intlayer": {
+            "prefix": "@hoogin-intlayer",
+            "url": "http://localhost:4173/r/@hoogin-intlayer"
+        },
+        "./src/@registry/layout": {
+            "prefix": "@hoogin-layout",
+            "url": "http://localhost:4173/r/@hoogin-layout"
+        }
     }
 }

@@ -7,9 +7,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts /home/alain/Projects/hoogin/hoogin-registry/src/@registry/intlayer",
-    "start:verbose": "tsx src/index.ts /home/alain/Projects/hoogin/hoogin-registry/src/@registry/intlayer -v",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsx src/index.ts /home/alain/Projects/hoogin/hoogin-registry/src/@registry/layout",
+    "start:verbose": "tsx src/index.ts /home/alain/Projects/hoogin/hoogin-registry/src/@registry/layout -v",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "knip": "npx knip"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +21,8 @@
   ],
   "dependencies": {
     "@inquirer/prompts": "^8.2.0",
-    "ajv": "^8.17.1"
+    "ajv": "^8.17.1",
+    "knip": "^5.82.1"
   },
   "devDependencies": {
     "@types/node": "^25.0.8",

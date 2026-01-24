@@ -29,7 +29,7 @@ export async function enrichFileInfo(
 
         log(`Enriching file ${file.path}`);
         const fileContent = await readFile(file.path, "utf-8");
-        const imports = getImportsArray(
+        const imports = await getImportsArray(
             file.path,
             fileContent,
             fileInfo,
