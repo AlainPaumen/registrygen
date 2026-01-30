@@ -1,10 +1,10 @@
 {
   "name": "registrygen",
   "author": "Alain Paumen, Hoogin bv",
-  "repository": "https://github.com/hoogin/registrygen",
-  "homepage": "https://github.com/hoogin/registrygen",
-  "bugs": "https://github.com/hoogin/registrygen/issues",
-  "version": "0.1.1",
+  "repository": "https://github.com/alainpaumen/registrygen",
+  "homepage": "https://github.com/alainpaumen/registrygen",
+  "bugs": "https://github.com/alainpaumen/registrygen/issues",
+  "version": "0.1.2",
   "description": "Generate registry.json files to setup a shadcn/ui registry",
   "main": "./dist/index.js",
   "bin": {
