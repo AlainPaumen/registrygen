@@ -79,7 +79,6 @@ function extractDependencyComponentName(registryDependency: string) {
     const lastSlash = registryDependency.lastIndexOf("/");
     const componentName = lastSlash === -1 ? registryDependency : registryDependency.slice(lastSlash + 1);
     return componentName;
-    s
 }
 
 function composeCleanRegistryDependency(registryName: string, componentName: string) {

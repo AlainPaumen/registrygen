@@ -1,8 +1,15 @@
 {
   "name": "registrygen",
-  "version": "0.1.0",
+  "author": "Alain Paumen, Hoogin bv",
+  "repository": "https://github.com/hoogin/registrygen",
+  "homepage": "https://github.com/hoogin/registrygen",
+  "bugs": "https://github.com/hoogin/registrygen/issues",
+  "version": "0.1.1",
   "description": "Generate registry.json files to setup a shadcn/ui registry",
   "main": "./dist/index.js",
+  "bin": {
+    "registrygen": "./dist/index.js"
+  },
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -10,10 +17,15 @@
     "start": "tsx src/index.ts /home/alain/Projects/hoogin/hoogin-registry/src/@registry/layout",
     "start:verbose": "tsx src/index.ts /home/alain/Projects/hoogin/hoogin-registry/src/@registry/layout -v",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "knip": "npx knip"
+    "knip": "npx knip",
+    "prepare": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "shadcn",
+    "registry",
+    "registry generator",
+    "shadcn registry"
+  ],
   "license": "ISC",
   "type": "module",
   "files": [
@@ -21,12 +33,12 @@
   ],
   "dependencies": {
     "@inquirer/prompts": "^8.2.0",
-    "ajv": "^8.17.1",
-    "knip": "^5.82.1"
+    "ajv": "^8.17.1"
   },
   "devDependencies": {
     "@types/node": "^25.0.8",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "knip": "^5.82.1"
   }
 }

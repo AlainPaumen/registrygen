@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { confirm, input } from "@inquirer/prompts";
+import { access, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
@@ -8,14 +10,20 @@ import { enrichFileInfo } from "./enrichFileInfo.js";
 import { findRootDirectory } from "./findRootDirectory.js";
 import { getDependenciesArray } from "./getDependenciesArray.js";
 import { getPathMappings } from "./getPathMappings.js";
-import { loadGeneratorConfig } from "./loadGeneratorConfig.js";
+import {
+    CONFIG_FILE_NAME,
+    DEFAULT_ALLOWED_EXTENSIONS,
+    DEFAULT_HOME_PAGE,
+    DEFAULT_REGISTRY_PREFIX,
+    DEFAULT_SKIP_DIRECTORIES,
+    loadGeneratorConfig,
+} from "./loadGeneratorConfig.js";
 import { parseArgs } from "./parseArgs.js";
 import { readNearestFileJson } from "./readNearestFileJson.js";
 import { scanDirectory } from "./scanDirectory.js";
 import { CliError, ensureDirectoryExists } from "./util.js";
 import { validateRegistryJson } from "./validateRegistryJson.js";
 
-import { writeFile } from "node:fs/promises";
 import type { PackageInfo } from "./getDependenciesArray.js";
 import type { GeneratorConfig } from "./loadGeneratorConfig.types.js";
 
@@ -40,10 +48,15 @@ async function waitForKeypress(message = "Press Enter to continue...", enabled =
 }
 
 async function main() {
-    const { verbose, directory, registryName, homePage } = parseArgs(process.argv);
+    const { verbose, directory, registryName, homePage, init } = parseArgs(process.argv);
     setVerboseLogging(verbose);
 
     await ensureDirectoryExists(directory);
+
+    if (init) {
+        await runInit(directory);
+        return;
+    }
 
     // root directory of the project './src/...'
     const rootDirectory = findRootDirectory(directory);
@@ -118,6 +131,71 @@ async function main() {
     }
 
     await writeFile(path.join(directory, "registry.json"), JSON.stringify(registryJson, null, 2));
+}
+
+async function runInit(targetDirectory: string) {
+    const projectRoot = resolveProjectRoot(targetDirectory);
+    await ensureDirectoryExists(projectRoot);
+
+    const configPath = path.join(projectRoot, CONFIG_FILE_NAME);
+    if (await fileExists(configPath)) {
+        const overwrite = await confirm({
+            message: `${CONFIG_FILE_NAME} already exists at ${configPath}. Overwrite it?`,
+            default: false,
+        });
+        if (!overwrite) {
+            console.log("Initialization cancelled; existing configuration preserved.");
+            return;
+        }
+    }
+
+    const registryPrefixInput = await input({
+        message: "Registry prefix:",
+        default: DEFAULT_REGISTRY_PREFIX,
+    });
+    const homePageInput = await input({
+        message: "Registry homepage:",
+        default: DEFAULT_HOME_PAGE,
+    });
+
+    const config = {
+        registryPrefix: registryPrefixInput.trim() || DEFAULT_REGISTRY_PREFIX,
+        homePage: homePageInput.trim() || DEFAULT_HOME_PAGE,
+        allowedExtensions: DEFAULT_ALLOWED_EXTENSIONS,
+        skipDirectories: DEFAULT_SKIP_DIRECTORIES,
+        knownRegistries: {},
+    } satisfies GeneratorConfig;
+
+    await writeFile(configPath, JSON.stringify(config, null, 4));
+    console.log(`\nCreated ${CONFIG_FILE_NAME} at ${configPath}. Contents:`);
+    console.log(JSON.stringify(config, null, 2));
+}
+
+async function fileExists(filePath: string) {
+    try {
+        await access(filePath);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+function resolveProjectRoot(directory: string) {
+    const normalized = path.resolve(directory);
+    const marker = `${path.sep}src${path.sep}`;
+    const markerIndex = normalized.indexOf(marker);
+    if (markerIndex !== -1) {
+        const rootCandidate = normalized.slice(0, markerIndex);
+        return rootCandidate || path.parse(normalized).root;
+    }
+
+    const trailingMarker = `${path.sep}src`;
+    if (normalized.endsWith(trailingMarker)) {
+        const rootCandidate = normalized.slice(0, normalized.length - trailingMarker.length);
+        return rootCandidate || path.parse(normalized).root;
+    }
+
+    return normalized;
 }
 
 
